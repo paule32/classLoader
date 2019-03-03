@@ -1,15 +1,19 @@
-import kallup.dbase.MyClassLoader;
-import kallup.dbase.ProcessAlgorithm;
+import java.net.URL;
+import java.net.URLClassLoader;
+
+import kallup.dbase.Action;
 
 public class Client
 {
     public static void main(String[] args) throws Exception
     {
-	MyClassLoader myClassLoader = new MyClassLoader();
-	Class clazz = myClassLoader.findClass("pkg.Action");
+	String url1 = "file:///config/Action.class";
+	Action action = new Action();
 
-	ProcessAlgorithm iAction = (ProcessAlgorithm) clazz.newInstance();
+	URLClassLoader urlLoader = new URLClassLoader(new URL[] { new URL(url1) });
+	Class<?> newClass = urlLoader.loadClass("Action");
 
-	iAction.doProcess();
+	action = (Action) newClass.newInstance();
+	action.doAction();
     }
 }
